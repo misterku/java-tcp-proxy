@@ -15,7 +15,7 @@ public class TcpProxyServer {
 
     private static final Queue<Handler> handlers = new ConcurrentLinkedQueue<>();
     private static final int WORKERS_NUMBER = 4;
-    public static final String RESOURCE_NAME = "/proxy.properties";
+    private static final String RESOURCE_NAME = "/proxy.properties";
 
     public static void main(String[] args) {
         List<ConfigurationEntry> configuration = null;
@@ -25,7 +25,7 @@ public class TcpProxyServer {
             System.err.println("Couldn't load properties from the resource.");
             System.exit(1);
         }
-        for (ConfigurationEntry entry : configuration) {
+        for (final ConfigurationEntry entry : configuration) {
             AcceptorHandler handler = null;
             try {
                 handler = new AcceptorHandler(entry, handlers);
@@ -37,11 +37,11 @@ public class TcpProxyServer {
             handlers.add(handler);
         }
 
-        Thread[] workers = new Thread[WORKERS_NUMBER];
+        final Thread[] workers = new Thread[WORKERS_NUMBER];
         for (int i = 0; i < workers.length; i++) {
             workers[i] = new Thread(new Worker(handlers));
         }
-        for (Thread worker : workers) {
+        for (final Thread worker : workers) {
             worker.start();
         }
     }

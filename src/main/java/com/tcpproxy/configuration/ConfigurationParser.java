@@ -6,18 +6,18 @@ import java.io.IOException;
 import java.util.*;
 
 public class ConfigurationParser {
-    public static List<ConfigurationEntry> parseConfiguration(String resourceName) throws IOException {
-        Properties props = new Properties();
+    public static List<ConfigurationEntry> parseConfiguration(final String resourceName) throws IOException {
+        final Properties props = new Properties();
         props.load(TcpProxyServer.class.getResourceAsStream(resourceName));
 
-        Map<String, Integer> localPorts = new HashMap<>();
-        Map<String, Integer> remotePorts = new HashMap<>();
-        Map<String, String> remoteHosts = new HashMap<>();
+        final Map<String, Integer> localPorts = new HashMap<>();
+        final Map<String, Integer> remotePorts = new HashMap<>();
+        final Map<String, String> remoteHosts = new HashMap<>();
 
-        Set<String> handlerNames = new HashSet<>();
+        final Set<String> handlerNames = new HashSet<>();
 
-        for (String key : props.stringPropertyNames()) {
-            String[] parsedKey = key.split("\\.");
+        for (final String key : props.stringPropertyNames()) {
+            final String[] parsedKey = key.split("\\.");
             handlerNames.add(parsedKey[0]);
             switch (parsedKey[1]) {
                 case "localPort":
@@ -32,9 +32,9 @@ public class ConfigurationParser {
                 default:
             }
         }
-        List<ConfigurationEntry> configuration = new ArrayList<ConfigurationEntry>();
+        final List<ConfigurationEntry> configuration = new ArrayList<>();
 
-        for (String handlerName : handlerNames) {
+        for (final String handlerName : handlerNames) {
             if (localPorts.containsKey(handlerName) && remoteHosts.containsKey(handlerName) &&
                 remotePorts.containsKey(handlerName)) {
                 configuration.add(new ConfigurationEntry(localPorts.get(handlerName), remoteHosts.get(handlerName),

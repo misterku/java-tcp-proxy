@@ -15,13 +15,13 @@ public class ProxyHandler implements Handler {
     private final ByteBuffer clientBuffer = ByteBuffer.allocate(CAPACITY);
     private final ByteBuffer serverBuffer = ByteBuffer.allocate(CAPACITY);
 
-    public ProxyHandler(SocketChannel clientChannel, SocketChannel serverChannel) {
+    public ProxyHandler(final SocketChannel clientChannel, final SocketChannel serverChannel) {
         this.clientChannel = clientChannel;
         this.serverChannel = serverChannel;
     }
 
     @Override
-    public void process(SelectionKey key) throws IOException {
+    public void process(final SelectionKey key) throws IOException {
         if (key.isWritable()) {
             handleWrite(key);
         }
@@ -31,7 +31,7 @@ public class ProxyHandler implements Handler {
     }
 
     private void handleRead(SelectionKey key) throws IOException {
-        SocketChannel channel = (SocketChannel) key.channel();
+        final SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer buffer;
         if (channel == clientChannel) {
             buffer = clientBuffer;
@@ -47,9 +47,9 @@ public class ProxyHandler implements Handler {
         }
     }
 
-    private void handleWrite(SelectionKey key) throws IOException {
-        SocketChannel channel = (SocketChannel) key.channel();
-        ByteBuffer buffer;
+    private void handleWrite(final SelectionKey key) throws IOException {
+        final SocketChannel channel = (SocketChannel) key.channel();
+        final ByteBuffer buffer;
         if (channel == clientChannel) {
             buffer = serverBuffer;
         } else if (channel == serverChannel) {
@@ -67,7 +67,7 @@ public class ProxyHandler implements Handler {
        closeChannel(serverChannel);
     }
 
-    private void closeChannel(SocketChannel channel) {
+    private void closeChannel(final SocketChannel channel) {
         try {
             channel.finishConnect();
             channel.close();
@@ -77,7 +77,7 @@ public class ProxyHandler implements Handler {
         }
     }
 
-    public void register(Selector selector) throws ClosedChannelException {
+    public void register(final Selector selector) throws ClosedChannelException {
         clientChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE, this);
         serverChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE, this);
     }

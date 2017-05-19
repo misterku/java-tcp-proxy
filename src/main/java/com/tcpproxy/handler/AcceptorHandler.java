@@ -13,7 +13,7 @@ public class AcceptorHandler implements Handler {
     private final ServerSocketChannel channel;
     private final Queue<Handler> handlers;
 
-    public AcceptorHandler(ConfigurationEntry entry, Queue<Handler> handlers) throws IOException {
+    public AcceptorHandler(final ConfigurationEntry entry, final Queue<Handler> handlers) throws IOException {
         this.entry = entry;
         this.channel = ServerSocketChannel.open();
         this.channel.bind(new InetSocketAddress(entry.getLocalPort()));
@@ -22,16 +22,16 @@ public class AcceptorHandler implements Handler {
     }
 
     @Override
-    public void register(Selector selector) throws ClosedChannelException {
+    public void register(final Selector selector) throws ClosedChannelException {
         channel.register(selector, SelectionKey.OP_ACCEPT, this);
     }
 
     @Override
-    public void process(SelectionKey key) throws IOException {
+    public void process(final SelectionKey key) throws IOException {
         if (key.isAcceptable()) {
-            SocketChannel clientChannel = channel.accept();
+            final SocketChannel clientChannel = channel.accept();
             clientChannel.configureBlocking(false);
-            SocketChannel serverChannel = SocketChannel.open(new InetSocketAddress(entry.getRemoteHost(), entry.getRemotePort()));
+            final SocketChannel serverChannel = SocketChannel.open(new InetSocketAddress(entry.getRemoteHost(), entry.getRemotePort()));
             serverChannel.configureBlocking(false);
             handlers.add(new ProxyHandler(clientChannel, serverChannel));
         }

@@ -13,17 +13,15 @@ public class Worker implements Runnable {
     private static final long TIMEOUT = 200L;
     private final Queue<Handler> handlers;
 
-
-    public Worker(Queue<Handler> handlers) {
+    public Worker(final Queue<Handler> handlers) {
         this.handlers = handlers;
-
     }
 
     @Override
     public void run() {
-        try (Selector selector = Selector.open()) {
+        try (final Selector selector = Selector.open()) {
             while (true) {
-                Handler handler = handlers.poll();
+                final Handler handler = handlers.poll();
                 if (handler != null) {
                     handler.register(selector);
                 }
@@ -32,16 +30,16 @@ public class Worker implements Runnable {
                     continue;
                 }
 
-                Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
+                final Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
                 while (keyIterator.hasNext()) {
-                    SelectionKey key = keyIterator.next();
+                    final SelectionKey key = keyIterator.next();
                     if (key.isValid()) {
                         ((Handler) key.attachment()).process(key);
                     }
                     keyIterator.remove();
                 }
             }
-        } catch (IOException ignored) {
+        } catch (final IOException ignored) {
             ignored.printStackTrace();
         }
     }

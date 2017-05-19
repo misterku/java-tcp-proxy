@@ -6,7 +6,7 @@ public class ConfigurationEntry {
     private final int remotePort;
     private final String remoteHost;
 
-    public ConfigurationEntry(Integer localPort, String remoteHost, Integer remotePort) {
+    public ConfigurationEntry(final Integer localPort, final String remoteHost, final Integer remotePort) {
         this.localPort = localPort;
         this.remoteHost = remoteHost;
         this.remotePort = remotePort;
