@@ -31,7 +31,7 @@ public class ProxyHandler implements Handler {
     }
 
     private void handleRead(SelectionKey key) throws IOException {
-        final SocketChannel channel = (SocketChannel) key.channel();
+        final var channel = (SocketChannel) key.channel();
         ByteBuffer buffer;
         if (channel == clientChannel) {
             buffer = clientBuffer;
@@ -41,14 +41,14 @@ public class ProxyHandler implements Handler {
             throw new RuntimeException("Proxy handler was incorrectly created");
         }
 
-        int readBytes = channel.read(buffer);
+        final int readBytes = channel.read(buffer);
         if (readBytes == -1) {
             terminate();
         }
     }
 
     private void handleWrite(final SelectionKey key) throws IOException {
-        final SocketChannel channel = (SocketChannel) key.channel();
+        final var channel = (SocketChannel) key.channel();
         final ByteBuffer buffer;
         if (channel == clientChannel) {
             buffer = serverBuffer;

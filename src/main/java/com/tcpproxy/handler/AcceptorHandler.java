@@ -29,9 +29,9 @@ public class AcceptorHandler implements Handler {
     @Override
     public void process(final SelectionKey key) throws IOException {
         if (key.isAcceptable()) {
-            final SocketChannel clientChannel = channel.accept();
+            final var clientChannel = channel.accept();
             clientChannel.configureBlocking(false);
-            final SocketChannel serverChannel = SocketChannel.open(new InetSocketAddress(entry.getRemoteHost(), entry.getRemotePort()));
+            final var serverChannel = SocketChannel.open(new InetSocketAddress(entry.getRemoteHost(), entry.getRemotePort()));
             serverChannel.configureBlocking(false);
             handlers.add(new ProxyHandler(clientChannel, serverChannel));
         }
