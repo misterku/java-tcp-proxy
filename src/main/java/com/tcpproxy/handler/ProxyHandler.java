@@ -30,7 +30,7 @@ public class ProxyHandler implements Handler {
         }
     }
 
-    private void handleRead(SelectionKey key) throws IOException {
+    private void handleRead(final SelectionKey key) throws IOException {
         final var channel = (SocketChannel) key.channel();
         ByteBuffer buffer;
         if (channel == clientChannel) {

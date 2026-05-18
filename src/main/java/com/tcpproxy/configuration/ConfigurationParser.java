@@ -3,9 +3,18 @@ package com.tcpproxy.configuration;
 import com.tcpproxy.TcpProxyServer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Properties;
 
-public class ConfigurationParser {
+public final class ConfigurationParser {
+
+    private ConfigurationParser() {
+        throw new UnsupportedOperationException("Utility class");
+    }
 
     public static final String LOCAL_PORT = "localPort";
     public static final String REMOTE_PORT = "remotePort";
@@ -19,7 +28,7 @@ public class ConfigurationParser {
         final var remotePorts = new HashMap<String, Integer>();
         final var remoteHosts = new HashMap<String, String>();
 
-        final var handlerNames = new HashSet<String>();
+        final Set<String> handlerNames = new HashSet<>();
 
         for (final var key : props.stringPropertyNames()) {
             final var parsedKey = key.split("\\.");
@@ -40,8 +49,8 @@ public class ConfigurationParser {
         final List<ConfigurationEntry> configuration = new ArrayList<>();
 
         for (final var handlerName : handlerNames) {
-            if (localPorts.containsKey(handlerName) && remoteHosts.containsKey(handlerName) &&
-                remotePorts.containsKey(handlerName)) {
+            if (localPorts.containsKey(handlerName) && remoteHosts.containsKey(handlerName)
+                && remotePorts.containsKey(handlerName)) {
                 configuration.add(new ConfigurationEntry(localPorts.get(handlerName), remoteHosts.get(handlerName),
                         remotePorts.get(handlerName)));
             } else {

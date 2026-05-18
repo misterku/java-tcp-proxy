@@ -17,7 +17,7 @@ public class Worker implements Runnable {
 
     @Override
     public void run() {
-        try (final var selector = Selector.open()) {
+        try (var selector = Selector.open()) {
             while (!Thread.currentThread().isInterrupted()) {
 
                 final var handler = handlers.poll();

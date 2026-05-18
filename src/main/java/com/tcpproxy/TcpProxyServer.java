@@ -10,14 +10,18 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class TcpProxyServer {
+public final class TcpProxyServer {
 
-    private static final Queue<Handler> handlers =
+    private TcpProxyServer() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
+    private static final Queue<Handler> HANDLERS =
         new ConcurrentLinkedQueue<>();
     private static final int WORKERS_NUMBER = 4;
     private static final String RESOURCE_NAME = "/proxy.properties";
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         List<ConfigurationEntry> configuration = null;
         try {
             configuration = ConfigurationParser.parseConfiguration(
@@ -30,18 +34,18 @@ public class TcpProxyServer {
         for (final ConfigurationEntry entry : configuration) {
             AcceptorHandler handler = null;
             try {
-                handler = new AcceptorHandler(entry, handlers);
+                handler = new AcceptorHandler(entry, HANDLERS);
             } catch (IOException e) {
                 System.err.println("Couldn't create server socket channel.");
                 e.printStackTrace();
                 System.exit(1);
             }
-            handlers.add(handler);
+            HANDLERS.add(handler);
         }
 
         final var workers = new Thread[WORKERS_NUMBER];
         for (int i = 0; i < workers.length; i++) {
-            workers[i] = new Thread(new Worker(handlers));
+            workers[i] = new Thread(new Worker(HANDLERS));
         }
         for (final Thread worker : workers) {
             worker.start();

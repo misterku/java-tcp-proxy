@@ -4,7 +4,11 @@ import com.tcpproxy.configuration.ConfigurationEntry;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.*;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.Selector;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Queue;
 
 public class AcceptorHandler implements Handler {

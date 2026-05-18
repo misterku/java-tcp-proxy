@@ -17,6 +17,7 @@
 - Java 25 (source/target 25 in pom.xml).
 - Single main class: `com.tcpproxy.TcpProxyServer`.
 - No dependencies beyond standard library.
+- **No Lombok**: Project does not use Lombok annotations.
 - No tests, lint, or formatting configured.
 - Uses Maven wrapper (`mvnw`).
 
@@ -24,3 +25,4 @@
 
 - **Clean build**: `./mvnw clean package`
 - **Run with custom config**: replace the resource file and rebuild, or override classpath with external directory containing `proxy.properties`.
+- **Run checkstyle**: `./mvnw checkstyle:check` (runs during validate phase automatically)
