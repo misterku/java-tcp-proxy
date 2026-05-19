@@ -21,6 +21,14 @@
 - No tests, lint, or formatting configured.
 - Uses Maven wrapper (`mvnw`).
 
+## Agent Code Conventions
+
+When editing code, follow these conventions:
+
+1. **No unused imports**: Remove any unused import statements.
+2. **No star imports**: Use explicit imports instead of wildcard imports (e.g., `import java.util.List;` not `import java.util.*;`).
+3. **No code comments**: Do not add comments to code unless explicitly requested by the user.
+
 ## Common Tasks
 
 - **Clean build**: `./mvnw clean package`
