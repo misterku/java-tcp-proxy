@@ -18,3 +18,4 @@ class ConfigurationParserTest {
         assertEquals(9090, entry.getRemotePort());
     }
 }
+

@@ -28,9 +28,12 @@ When editing code, follow these conventions:
 1. **No unused imports**: Remove any unused import statements.
 2. **No star imports**: Use explicit imports instead of wildcard imports (e.g., `import java.util.List;` not `import java.util.*;`).
 3. **No code comments**: Do not add comments to code unless explicitly requested by the user.
+4. **LF line endings**: Use LF (Unix) line endings for all files.
+5. **Trailing newline**: Ensure every file ends with a newline.
 
 ## Common Tasks
 
 - **Clean build**: `./mvnw clean package`
 - **Run with custom config**: replace the resource file and rebuild, or override classpath with external directory containing `proxy.properties`.
 - **Run checkstyle**: `./mvnw checkstyle:check` (runs during validate phase automatically)
+

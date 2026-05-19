@@ -63,3 +63,4 @@ public final class ConfigurationParser {
         return configuration;
     }
 }
+
