@@ -1,5 +1,8 @@
 package com.tcpproxy.testutil;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StaticResponseServer implements Runnable {
+    private static final Logger LOG = LoggerFactory.getLogger(StaticResponseServer.class);
     private final ServerSocket serverSocket;
     private final ExecutorService executor;
     private final AtomicBoolean running;
@@ -46,7 +50,7 @@ public class StaticResponseServer implements Runnable {
             }
         } catch (IOException e) {
             if (running.get()) {
-                e.printStackTrace();
+                LOG.error("Error accepting connection", e);
             }
         } finally {
             stop();
@@ -64,7 +68,7 @@ public class StaticResponseServer implements Runnable {
             out.flush();
         } catch (IOException e) {
             if (running.get()) {
-                e.printStackTrace();
+                LOG.error("Error handling client", e);
             }
         }
     }
@@ -75,7 +79,7 @@ public class StaticResponseServer implements Runnable {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error closing server socket", e);
         }
     }
 

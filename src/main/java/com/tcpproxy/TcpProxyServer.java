@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class TcpProxyServer {
+    private static final Logger LOG = LoggerFactory.getLogger(TcpProxyServer.class);
 
     private TcpProxyServer() {
         throw new UnsupportedOperationException("Utility class");
@@ -28,7 +31,7 @@ public final class TcpProxyServer {
                 RESOURCE_NAME
             );
         } catch (IOException e) {
-            System.err.println("Couldn't load properties from the resource.");
+            LOG.error("Couldn't load properties from the resource.", e);
             System.exit(1);
         }
         for (final ConfigurationEntry entry : configuration) {
@@ -36,8 +39,7 @@ public final class TcpProxyServer {
             try {
                 handler = new AcceptorHandler(entry, HANDLERS);
             } catch (IOException e) {
-                System.err.println("Couldn't create server socket channel.");
-                e.printStackTrace();
+                LOG.error("Couldn't create server socket channel.", e);
                 System.exit(1);
             }
             HANDLERS.add(handler);

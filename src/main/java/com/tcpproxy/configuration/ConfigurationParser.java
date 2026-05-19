@@ -1,6 +1,8 @@
 package com.tcpproxy.configuration;
 
 import com.tcpproxy.TcpProxyServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Set;
 import java.util.Properties;
 
 public final class ConfigurationParser {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigurationParser.class);
 
     private ConfigurationParser() {
         throw new UnsupportedOperationException("Utility class");
@@ -54,7 +57,7 @@ public final class ConfigurationParser {
                 configuration.add(new ConfigurationEntry(localPorts.get(handlerName), remoteHosts.get(handlerName),
                         remotePorts.get(handlerName)));
             } else {
-                System.err.println("Invalid configuration file: not enough parameters for handler " + handlerName);
+                LOG.error("Invalid configuration file: not enough parameters for handler {}", handlerName);
             }
         }
         return configuration;

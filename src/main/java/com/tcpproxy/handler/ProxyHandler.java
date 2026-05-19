@@ -1,5 +1,8 @@
 package com.tcpproxy.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ClosedChannelException;
@@ -8,6 +11,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 public class ProxyHandler implements Handler {
+    private static final Logger LOG = LoggerFactory.getLogger(ProxyHandler.class);
     private static final int CAPACITY = 16384;
     private final SocketChannel clientChannel;
     private final SocketChannel serverChannel;
@@ -72,8 +76,7 @@ public class ProxyHandler implements Handler {
             channel.finishConnect();
             channel.close();
         } catch (IOException e) {
-            System.err.println("Couldn't close client channel normally");
-            e.printStackTrace();
+            LOG.error("Couldn't close client channel normally", e);
         }
     }
 

@@ -1,12 +1,15 @@
 package com.tcpproxy.worker;
 
 import com.tcpproxy.handler.Handler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.channels.Selector;
 import java.util.Queue;
 
 public class Worker implements Runnable {
+    private static final Logger LOG = LoggerFactory.getLogger(Worker.class);
 
     private static final long TIMEOUT = 200L;
     private final Queue<Handler> handlers;
@@ -39,7 +42,7 @@ public class Worker implements Runnable {
                 }
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            LOG.error("Worker encountered an error", e);
         }
     }
 }
